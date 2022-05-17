@@ -23,14 +23,14 @@ public class entryStation extends javax.swing.JFrame {
     public  entryStation() {
        initComponents();
 
-            int y=freeSpots();
+            int y=Cust.freeSpots();
              if (y==0){
             jTextField3.setText("0 Spots");
             jButton1.setEnabled(false);}
              else{
             jButton1.setEnabled(true);
             jTextField3.setText(y+" Spots");
-            int Current = getSpot("freespots");
+            int Current = Cust.getSpot("freespots");
             String CurrentSpot = Current + "";
             jTextField1.setText(CurrentSpot);
         }
@@ -179,7 +179,7 @@ public class entryStation extends javax.swing.JFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         int reserved = (Cust.getID("parkedcar"))-1;
-        deleteRow(reserved);
+        Cust.deleteRow(reserved);
         new Home().setVisible(true);
         close();
     }//GEN-LAST:event_jButton2ActionPerformed

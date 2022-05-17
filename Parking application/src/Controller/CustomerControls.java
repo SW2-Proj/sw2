@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Controller;
 
 import GUI.entryStation;
@@ -12,25 +8,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
- * @author DELL
+ * 
  */
 public class CustomerControls {
     SqlClass get=new SqlClass();
     Connection connectDB ;
+    AdminControls admin;
+   
+    
+    
     private void close() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    
-    
-    
     
     public int checkPlate (String plateNo)
        { 
@@ -51,7 +47,7 @@ public class CustomerControls {
             
             
             int id = getID("parkedcar");
-            String i = id + "";
+            String id_String = id + "";
             
            }
            catch(Exception e)
@@ -130,9 +126,8 @@ public class CustomerControls {
             
 
            ResultSet QueryResult= get.getQuery("DELETE FROM freespots limit 1 ");
-            System.out.println("Deleted");
-            QueryResult.close();
-            Con.close();
+            System.out.println("Deleted");          
+            QueryResult.close();      
         } catch (Exception e) {
             System.out.println("Error");
         }
@@ -159,23 +154,23 @@ public class CustomerControls {
             ResultSet QueryResult= get.getQuery("SELECT spot from parkedcar where platenum='"+p+"'");
             QueryResult.next();
             int freeSpot=QueryResult.getInt("spot");
-            get.executeUpdate("INSERT INTO freespots VALUES ("+freeSpot+")");
-            get.executeUpdate("DELETE FROM parkedcar WHERE platenum='"+p+"'");
+            get.updateQuery("INSERT INTO freespots VALUES ("+freeSpot+")");
+            get.updateQuery("DELETE FROM parkedcar WHERE platenum='"+p+"'");
             System.out.println("Deleted");
-            st.close();
-            con.close();
+//            st.close();
+//            con.close();
         } catch (Exception e) {
             System.out.println("Error");
         }
     }
-    public void deleteRows (int s)
+    public void deleteRows (int spot)
     {
         try {
-             get.updateQuery("INSERT INTO freespots VALUES ("+s+")");
-            get.updateQuery("DELETE FROM parkedcar WHERE spot="+s+"");
+             get.updateQuery("INSERT INTO freespots VALUES ("+spot+")");
+            get.updateQuery("DELETE FROM parkedcar WHERE spot="+spot+"");
             System.out.println("Deleted");
-            st.close();
-            con.close();
+//            st.close();
+//            con.close();
         } catch (Exception e) {
             System.out.println("Error");
         }
@@ -201,18 +196,18 @@ public class CustomerControls {
 
     public int busySpots() {
         Connection con = setConnection();
-        int k = 0;
+        int NumOfSpots = 0;
         try {
             ResultSet QueryResult= get.getQuery("SELECT * FROM parkedcar");
             while (QueryResult.next()) {
-                k++;
+                NumOfSpots++;
             }
             QueryResult.close();
 //            st.close();
         } catch (Exception e) {
             System.out.println("Error Occuer");
         }
-        return k;
+        return NumOfSpots;
     }
 
     public int getSpot(String tableName) {
@@ -230,5 +225,52 @@ public class CustomerControls {
             System.out.println("Error");
         }
         return freeSpot;
+    }
+    public Time calulateTotalTime(int id)
+    {
+        admin.setEndTime("parkedcar", id);
+        admin.setTotalTime("parkedcar", id);
+        Time time=admin.getTotalTime("parkedcar", id);
+       return time;
+    }
+
+    public float calculatePayment(Time time) {
+        float ttime=(float) ((time.getSeconds()/3600.0)+(time.getMinutes()/60.0)+(time.getHours()));
+        System.out.println(ttime);
+        float pay=(float) (ttime*5.0);
+        return pay;
+    }
+    
+    public void pay(int id) throws SQLException {
+        {
+           
+            try{
+                int Id = 0, spot = 0;
+            String plateNum = null;
+            Time startTime = null, exitTime = null, totalTime = null;
+            float payment = (float) 0.0;
+            ResultSet QueryResult= get.getQuery("SELECT * From parkedcar WHERE id=" + id + "");
+            System.out.println("Select Query Run Successfully");
+            QueryResult.next();
+            Id = QueryResult.getInt("id");
+            spot = QueryResult.getInt("spot");
+            plateNum = QueryResult.getString("platenum");
+            payment = QueryResult.getFloat("payment");
+            startTime = QueryResult.getTime("starttime");
+            exitTime = QueryResult.getTime("endtime");
+            totalTime = QueryResult.getTime("totaltime");
+            get.updateQuery("INSERT INTO totalcars VALUES (" + Id + "," + spot + ",'" + startTime + "','" + exitTime + "','" + totalTime + "','" + plateNum + "', '" + payment + "')");
+            System.out.println("insert Query Run Successfully");
+           ResultSet QueryResult2= get.getQuery("SELECT spot From parkedcar WHERE id=" + id + "");
+            QueryResult2.next();
+            int spots = QueryResult2.getInt("spot");
+            get.updateQuery("INSERT INTO freespots VALUES (" + spots + ")");
+            get.updateQuery("DELETE From parkedcar WHERE id=" + id + "");
+//            stt.close();
+//                con.close();
+        } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 }

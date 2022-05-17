@@ -1,5 +1,7 @@
 package GUI;
 
+import Controller.AdminControls;
+import Controller.CustomerControls;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.*;
@@ -14,23 +16,27 @@ import javax.swing.JOptionPane;
 import static Model.Connectsql.setConnection;
 /**
  *
- * @author Fady Malak
+ * 
  */
 public class Admin extends javax.swing.JFrame {
-    
+    CustomerControls Cust;
+    AdminControls admin;
     entryStation x=new entryStation();
     public Admin() {
-        initComponents();
-        int f=x.freeSpots();
-        int b=x.busySpots();
-        int t=f+b;
-        String ff,bb,tt;
-        ff=f+"";
-        bb=b+"";
-        tt=t+"";
-        jTextField1.setText(tt);
-        jTextField2.setText(bb);
-        jTextField3.setText(ff);
+    initComponents();
+    }
+      public void printSpotData()
+     {
+        int freeSpot=Cust.freeSpots();
+        int busySpot=Cust.busySpots();
+        int totalSpot=freeSpot+busySpot;
+        String FreeSpot_S,busySpot_S,totalSpot_S;
+        FreeSpot_S=freeSpot+"";
+        busySpot_S=busySpot+"";
+        totalSpot_S=totalSpot+"";
+        jTextField1.setText(totalSpot_S);
+        jTextField2.setText(busySpot_S);
+        jTextField3.setText(FreeSpot_S);
     }
 public void close(){
  
@@ -256,77 +262,13 @@ public void close(){
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-addSpot();
-        int f=x.freeSpots();
-        int b=x.busySpots();
-        int t=f+b;
-        String ff,bb,tt;
-        ff=f+"";
-        bb=b+"";
-        tt=t+"";
-        jTextField1.setText(tt);
-        jTextField2.setText(bb);
-        jTextField3.setText(ff);
+        admin.addSpot();
+        printSpotData();
     }//GEN-LAST:event_jButton2ActionPerformed
-    public void addSpot() {
-        Connection con = setConnection();
-        int s, max1 = 0, max2 = 0;
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT spot FROM parkedcar");
-            while (rs.next()) {
-                s = rs.getInt("spot");
-                if (max1 < s) {
-                    max1 = s;
-                }
-            }
-            ResultSet re = st.executeQuery("SELECT spot FROM freespots");
-            while (re.next()) {
-                s = re.getInt("spot");
-                if (max2 < s) {
-                    max2 = s;
-                }
-            }
-            if (max2 > max1) {
-                max2 += 1;
-                st.executeUpdate("insert into freespots VALUES (" + max2 + ")");
-            } else {
-                max1 += 1;
-                st.executeUpdate("insert into freespots VALUES (" + max1 + ")");
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-    }
-    public void removeSpot() {
-        Connection con = setConnection();
-        int s, max = 0;
-        try {
-            Statement st = con.createStatement();
-            ResultSet re = st.executeQuery("SELECT spot FROM freespots");
-            while (re.next()) {
-                s = re.getInt("spot");
-                if (max < s) {
-                    max = s;
-                }
-            }
-            st.executeUpdate("DELETE FROM freespots where spot=" + max + "");
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        removeSpot();
-        int f = x.freeSpots();
-        int b = x.busySpots();
-        int t = f + b;
-        String ff, bb, tt;
-        ff = f + "";
-        bb = b + "";
-        tt = t + "";
-        jTextField1.setText(tt);
-        jTextField2.setText(bb);
-        jTextField3.setText(ff);
+        admin.removeSpot();
+        printSpotData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

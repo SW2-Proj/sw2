@@ -26,6 +26,15 @@ public class SqlClass {
    QueryStatement.close();
    return QueryResult;
 }
+  public static ResultSet getQuery(String Query,String var) throws SQLException{
+   Connection connect = setConnection();
+   Statement QueryStatement = connect.createStatement();
+   ResultSet QueryResult = QueryStatement.executeQuery(Query);
+   
+   connect.close();
+   QueryStatement.close();
+   return QueryResult;
+}
   public static void UpdateQuery(String Query) throws SQLException{
    Connection connect = setConnection();
    Statement QueryStatement = connect.createStatement();
@@ -34,15 +43,15 @@ public class SqlClass {
    connect.close();
    QueryStatement.close();
 }
-//  public static ResultSet getQuery(String Query,String var) throws SQLException{
-//   Connection connect = setConnection();
-//   Statement QueryStatement = connect.createStatement();
-//   ResultSet QueryResult = QueryStatement.executeQuery(Query);
-//   
+  public static ResultSet getQuery(String Query,String var,int var2) throws SQLException{
+   Connection connect = setConnection();
+   Statement QueryStatement = connect.createStatement();
+   ResultSet QueryResult = QueryStatement.executeQuery(Query,var,var2);
+   
 //   connect.close();
 //   QueryStatement.close();
-//   return QueryResult;
-//}
+   return QueryResult;
+}
 
     public void updateQuery(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

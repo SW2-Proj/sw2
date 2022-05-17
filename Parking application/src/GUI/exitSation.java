@@ -1,5 +1,6 @@
 
 package GUI;
+import Controller.CustomerControls;
 import Model.Connectsql;
 import java.sql.*;
 import com.sun.jdi.connect.spi.Connection;
@@ -15,11 +16,11 @@ import static Model.Connectsql.setConnection;
 
 /**
  *
- * @author Fady Malak
+ * 
  */
 public class exitSation extends javax.swing.JFrame {
 Connectsql c= new Connectsql();
-
+  CustomerControls Cust;
     public exitSation() {
         initComponents();
     }
@@ -185,21 +186,14 @@ Connectsql c= new Connectsql();
 
    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String x =jTextField1.getText();
-        int id= Integer.parseInt(x);
+        String Id =jTextField1.getText();
+        int id= Integer.parseInt(Id);
         System.out.println(id);
-        c.setEndTime("parkedcar", id);
-        c.setTotalTime("parkedcar", id);
-        Time t=c.getTotalTime("parkedcar", id);
-        String time=t.toString();
-        jTextField2.setText(time);
         
-        float ttime=(float) ((t.getSeconds()/3600.0)+(t.getMinutes()/60.0)+(t.getHours()));
-        System.out.println(ttime);
-        float pay=(float) (ttime*5.0);
-        String tpayment =pay+"$";
-        jTextPane1.setText(tpayment);
-        c.setPayment("parkedcar", pay, id);
+         jTextField2.setText(Cust.calulateTotalTime(id).toString());
+         String pay=(Cust.calculatePayment(Cust.calulateTotalTime(id)))+" ";
+         jTextPane1.setText(pay);
+        c.setPayment("parkedcar", Cust.calculatePayment(Cust.calulateTotalTime(id)), id);
         
     }//GEN-LAST:event_jButton1ActionPerformed
      public void jButtonAction(java.awt.event.ActionEvent evt) {
@@ -207,10 +201,10 @@ Connectsql c= new Connectsql();
 }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jButtonAction(evt);
-        String x = jTextField1.getText();
-        int id = Integer.parseInt(x);
+        String Id = jTextField1.getText();
+        int id = Integer.parseInt(Id);
         try {
-            c.pay(id);
+            Cust.pay(id);
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "Payment has been successful");
             new Home().setVisible(true);
