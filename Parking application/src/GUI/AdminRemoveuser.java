@@ -1,6 +1,10 @@
 
 package GUI;
 
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
+import Model.SqlClass;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -8,12 +12,15 @@ import javax.swing.JOptionPane;
 
 
 public class AdminRemoveuser extends javax.swing.JFrame {
-
+SystemControls Systems;
+entryStation e=new entryStation();
+CustomerControls Cust;
+SqlClass get;
+AdminControls admin;
     public AdminRemoveuser() {
         initComponents();
 
     }
-    entryStation e=new entryStation();
 public void close(){
  
  WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
@@ -172,28 +179,7 @@ public void close(){
         String text=jTextField1.getText();
         int index ;
         index=jComboBox1.getSelectedIndex();
-        
-        if(index==0)
-        {
-            int i=Integer.parseInt(text);
-            e.deleteRow(i);
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "User Removed Successfully");
-        }
-        else if (index==1)
-        {
-            String pl=text;
-            e.deleteRow(pl);
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "User Removed Successfully");
-        }
-        else if (index==2)
-        {
-            int s=Integer.parseInt(text);
-            e.deleteRows(s);
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "User Removed Successfully");
-        }
+        admin.RemoveUser(index,text);
         jTextField1.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 

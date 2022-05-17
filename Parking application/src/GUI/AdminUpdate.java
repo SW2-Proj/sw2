@@ -1,6 +1,9 @@
 
 package GUI;
 
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -9,9 +12,14 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import static Model.Connectsql.setConnection;
+import Model.SqlClass;
 
 public class AdminUpdate extends javax.swing.JFrame {
-
+SystemControls Systems;
+entryStation e=new entryStation();
+CustomerControls Cust;
+SqlClass get;
+AdminControls admin;
     public AdminUpdate() {
         initComponents();
         jPanel2.setVisible(false);

@@ -1,5 +1,6 @@
 
 package GUI;
+import Controller.SystemControls;
 import Controller.CustomerControls;
 import Model.Connectsql;
 import java.sql.*;
@@ -21,6 +22,7 @@ import static Model.Connectsql.setConnection;
 public class exitSation extends javax.swing.JFrame {
 Connectsql c= new Connectsql();
   CustomerControls Cust;
+  SystemControls Systems;
     public exitSation() {
         initComponents();
     }
@@ -193,7 +195,7 @@ Connectsql c= new Connectsql();
          jTextField2.setText(Cust.calulateTotalTime(id).toString());
          String pay=(Cust.calculatePayment(Cust.calulateTotalTime(id)))+" ";
          jTextPane1.setText(pay);
-        c.setPayment("parkedcar", Cust.calculatePayment(Cust.calulateTotalTime(id)), id);
+        Systems.setPayment("parkedcar", Cust.calculatePayment(Cust.calulateTotalTime(id)), id);
         
     }//GEN-LAST:event_jButton1ActionPerformed
      public void jButtonAction(java.awt.event.ActionEvent evt) {

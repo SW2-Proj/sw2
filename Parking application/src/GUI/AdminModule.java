@@ -137,9 +137,9 @@ public void close(){
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String uname=jTextField1.getText();
-        String pass=jPasswordField1.getText();
-        if (uname.equals("admin")&&pass.equals("admin"))
+        String username=jTextField1.getText();
+        String password=jPasswordField1.getText();
+        if (username.equals("admin")&&password.equals("admin"))
         {
             new Admin().setVisible(true);
             close();

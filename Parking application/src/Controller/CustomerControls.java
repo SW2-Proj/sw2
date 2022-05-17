@@ -20,7 +20,7 @@ import java.util.Date;
 public class CustomerControls {
     SqlClass get=new SqlClass();
     Connection connectDB ;
-    AdminControls admin;
+    SystemControls Systems;
    
     
     
@@ -228,9 +228,9 @@ public class CustomerControls {
     }
     public Time calulateTotalTime(int id)
     {
-        admin.setEndTime("parkedcar", id);
-        admin.setTotalTime("parkedcar", id);
-        Time time=admin.getTotalTime("parkedcar", id);
+        Systems.setEndTime("parkedcar", id);
+        Systems.setTotalTime("parkedcar", id);
+        Time time=Systems.getTotalTime("parkedcar", id);
        return time;
     }
 

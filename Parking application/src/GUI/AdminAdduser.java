@@ -1,6 +1,9 @@
 
 package GUI;
 
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
 import Model.Connectsql;
 import java.awt.Component;
 import java.awt.Toolkit;
@@ -14,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static Model.Connectsql.setConnection;
+import Model.SqlClass;
 
 
 public class AdminAdduser extends javax.swing.JFrame {
@@ -28,8 +32,12 @@ public void close(){
  Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
  
  }
-Connectsql c =new Connectsql();
+SystemControls Systems;
 entryStation e=new entryStation();
+CustomerControls Cust;
+SqlClass get;
+AdminControls admin;
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -230,9 +238,10 @@ entryStation e=new entryStation();
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String x= jTextField3.getText();
-        int p=c.checkPlate(x);
-        if (p==1)
+        String plateNum= jTextField3.getText();
+        
+        int flag=Cust.checkPlate(plateNum);
+        if (flag==1)
         {
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "The Plate Number You Entered is already Exist\n Please Enter another Plate Number");
@@ -241,26 +250,14 @@ entryStation e=new entryStation();
         {
            try
            {
-               Connection con = setConnection();
-               Statement st = con.createStatement();
-               long i=c.getID("parkedcar");
-               String h=i+"";
-               jTextField1.setText(h);
+               long id=Cust.getID("parkedcar");
+               String Id_String=id+"";
+               jTextField1.setText(Id_String);
                
-               int s=e.getSpot("freespots");
-               String ss=s+"";
-               jTextField2.setText(ss);
-
-               st.executeUpdate("INSERT INTO parkedcar (id,spot,platenum) VALUES (" + i + "," + s + ",'" + x + "')");
-               c.setStartTime("parkedcar", i);
-               DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-               Date date = new Date();
-               System.out.println(dateFormat.format(date));
-               String time = dateFormat.format(date);
-               jFormattedTextField1.setText(time);
-               e.deleteSpot();
-               st.close();
-               con.close();
+               int spot=Cust.getSpot("freespots");
+               String spot_String=spot+"";
+               jTextField2.setText(spot_String);
+             jFormattedTextField1.setText(admin.addUser( id, spot, plateNum));
             } catch (Exception e) {
                 System.out.println("Error");
             }
@@ -271,7 +268,7 @@ entryStation e=new entryStation();
             jTextField1.setText("");
             jTextField3.setText("");
             
-        }
+        }   
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

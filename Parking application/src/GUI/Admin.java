@@ -1,6 +1,6 @@
 package GUI;
 
-import Controller.AdminControls;
+import Controller.SystemControls;
 import Controller.CustomerControls;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -20,7 +20,7 @@ import static Model.Connectsql.setConnection;
  */
 public class Admin extends javax.swing.JFrame {
     CustomerControls Cust;
-    AdminControls admin;
+    SystemControls admin;
     entryStation x=new entryStation();
     public Admin() {
     initComponents();
