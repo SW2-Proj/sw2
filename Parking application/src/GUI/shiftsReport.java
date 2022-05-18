@@ -1,47 +1,42 @@
 package GUI;
 
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static Model.Connectsql.setConnection;
-/**
- *
- * @author Fady Malak
- */
-public class shiftsReport extends javax.swing.JFrame {
+import Model.SqlClass;
 
-    DefaultTableModel dtm=new DefaultTableModel();
+public class shiftsReport extends javax.swing.JFrame {
+SystemControls Systems;
+entryStation e=new entryStation();
+CustomerControls Cust;
+SqlClass get;
+AdminControls admin;
+    DefaultTableModel table=new DefaultTableModel();
     public shiftsReport() {
         try {
             initComponents();
-            this.jTable3.setModel(dtm);
-            dtm.addColumn("Id");
-            dtm.addColumn("Spot");
-            dtm.addColumn("Start time");
-            dtm.addColumn("Plate number");
+            this.jTable3.setModel(table);
+            table.addColumn("Id");
+            table.addColumn("Spot");
+            table.addColumn("Start time");
+            table.addColumn("Plate number");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = setConnection();
-            Statement st = con.createStatement();
-            String sql = "select * from parkedcar";
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next())
+             ResultSet QueryResult =get.getQuery("select * from parkedcar");
+            
+            while (QueryResult.next())
             {
-                dtm.addRow(new Object[] {rs.getInt("id"),rs.getInt("spot"),rs.getTime("starttime"),rs.getString("platenum")});
+                table.addRow(new Object[] {QueryResult.getInt("id"),QueryResult.getInt("spot"),QueryResult.getTime("starttime"),QueryResult.getString("platenum")});
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(shiftsReport.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -52,7 +47,7 @@ public void close(){
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Parked Cars");
         setFocusTraversalPolicyProvider(true);
 
@@ -118,7 +113,7 @@ public void close(){
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new Admin().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

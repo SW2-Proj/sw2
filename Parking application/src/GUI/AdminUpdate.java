@@ -5,13 +5,7 @@ import Controller.AdminControls;
 import Controller.CustomerControls;
 import Controller.SystemControls;
 import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import static Model.Connectsql.setConnection;
 import Model.SqlClass;
 
 public class AdminUpdate extends javax.swing.JFrame {
@@ -25,12 +19,7 @@ AdminControls admin;
         jPanel2.setVisible(false);
 
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -49,7 +38,7 @@ public void close(){
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Update User");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -215,13 +204,13 @@ public void close(){
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Component frame = null;
-        String i=jTextField1.getText();
+        String Id=jTextField1.getText();
         if (jTextField1.getText().equals("")) {
             JOptionPane.showMessageDialog(frame, "Invalid ID");
         } else {
-            int id = Integer.parseInt(i);
-            int z = checkId(id);
-            if (z == 1) {
+            int id = Integer.parseInt(Id);
+            int flag = Systems.checkId(id);
+            if (flag == 1) {
                 jPanel2.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(frame, "Invalid ID");
@@ -230,43 +219,15 @@ public void close(){
 
         
     }//GEN-LAST:event_jButton1ActionPerformed
-       public int checkId (int id)
-       { 
-           int i=0;
-           int z=0;
-            try
-           {
-               Connection con = setConnection();
-               Statement st = con.createStatement();
-               ResultSet pc = st.executeQuery("SELECT id FROM parkedcar ");
-               
-               while(pc.next())
-           {
-                i= pc.getInt("id");
-                System.out.println(i);
-               if(i==id)
-               {z=1; break;}
-               else {z= 0;}
-           }
 
-           st.close();
-           con.close();
-           }
-           catch(Exception e)
-           {
-               System.out.println("Errorrrr");
-           }
-            return z;
-       }
-       
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         new Admin().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -282,107 +243,18 @@ public void close(){
         String text=jTextField2.getText();
         int index ;
         index=jComboBox1.getSelectedIndex();
-        
-        if(index==0)
-        {
-            String pl=text;
-            String i=jTextField1.getText();
-             int id = Integer.parseInt(i);
-            updatePlate(pl,id);
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "Plate Number Updated Successfully");
-        }
-        else if (index==1)
-        {
-            int s=Integer.parseInt(text);
-            int z=checkFspot(s);
-            String i=jTextField1.getText();
-             int id = Integer.parseInt(i);
-            if (z==1)
-            {
-                updateSpot(id,s);
-                Component frame = null;
-                JOptionPane.showMessageDialog(frame, "Spot Number Updated Successfully");
-            }
-            else
-            {
-                Component frame = null;
-                JOptionPane.showMessageDialog(frame, "Invalid Spot");
-            }
-        }
+         String id=jTextField1.getText();
+             int Id = Integer.parseInt(id);
+             admin.UpdateUser( index, text, Id);
+
         jTextField2.setText("");
         jTextField1.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
-       public int checkFspot (int s)
-       { 
-           int i=0;
-           int z=0;
-            try
-           {
-               Connection con = setConnection();
-               Statement st = con.createStatement();
-               ResultSet pc = st.executeQuery("SELECT spot FROM freespots ");
-               
-               while(pc.next())
-           {
-                i= pc.getInt("spot");
-                System.out.println(i);
-               if(i==s)
-               {z=1; break;}
-               else {z= 0;}
-           }
-
-           st.close();
-           con.close();
-           }
-           catch(Exception e)
-           {
-               System.out.println("Errorrrr");
-           }
-            return z;
-       }
-       
-public void updateSpot(int id,int spot)
-{
-    try {
-        Connection con = setConnection();
-        Statement st = con.createStatement();
-        ResultSet rs=st.executeQuery("SELECT spot from parkedcar where id="+id+"");
-        System.out.println("selected");
-        rs.next();
-        int s=rs.getInt("spot");
-        st.executeUpdate("insert into freespots VALUES ("+s+")");
-        System.out.println("inserted");
-        st.executeUpdate("Update parkedcar set spot='"+spot+"' where id='"+id+"'");
-        System.out.println("updated");
-        st.executeUpdate("Delete from freespots where spot="+spot+"");
-        System.out.println("deleted");
-    }
-    catch(Exception e)
-    {
-        System.out.println(e);
-    }
-}
+     
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
 
     }//GEN-LAST:event_jTextField1ActionPerformed
-public void updatePlate(String p,int id)
-{
-               try
-           {
-               Connection con = setConnection();
-               Statement st = con.createStatement();
-               
-               st.executeUpdate("UPDATE parkedcar set platenum = '"+p+"' Where id = "+id+"");
-               System.out.println("Updated");
-           st.close();
-           con.close();
-           }
-           catch(Exception e)
-           {
-               System.out.println(e);
-           }
-}
+
     /**
      * @param args the command line arguments
      */

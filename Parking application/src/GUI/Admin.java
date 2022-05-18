@@ -2,33 +2,21 @@ package GUI;
 
 import Controller.SystemControls;
 import Controller.CustomerControls;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.awt.event.*;
-import java.awt.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import static Model.Connectsql.setConnection;
-/**
- *
- * 
- */
+
+
+
 public class Admin extends javax.swing.JFrame {
-    CustomerControls Cust;
-    SystemControls admin;
+    CustomerControls Cust=new CustomerControls();
+    SystemControls Systems= new SystemControls();
     entryStation x=new entryStation();
+    
     public Admin() {
     initComponents();
     }
       public void printSpotData()
      {
-        int freeSpot=Cust.freeSpots();
-        int busySpot=Cust.busySpots();
+        int freeSpot=Systems.freeSpotsNumber();
+        int busySpot=Systems.busySpotsNumber();
         int totalSpot=freeSpot+busySpot;
         String FreeSpot_S,busySpot_S,totalSpot_S;
         FreeSpot_S=freeSpot+"";
@@ -38,12 +26,7 @@ public class Admin extends javax.swing.JFrame {
         jTextField2.setText(busySpot_S);
         jTextField3.setText(FreeSpot_S);
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,7 +48,7 @@ public void close(){
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Module");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -258,42 +241,42 @@ public void close(){
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        admin.addSpot();
+        Systems.addSpot();
         printSpotData();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        admin.removeSpot();
+        Systems.reserveSpot();
         printSpotData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new viewShifts().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         new shiftsReport().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
          new AdminAdduser().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         new AdminRemoveuser().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         new AdminUpdate().setVisible(true);
-        close();
+                this.setVisible(false);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public static void main(String args[]) {

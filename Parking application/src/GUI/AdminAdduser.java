@@ -4,19 +4,8 @@ package GUI;
 import Controller.AdminControls;
 import Controller.CustomerControls;
 import Controller.SystemControls;
-import Model.Connectsql;
 import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static Model.Connectsql.setConnection;
 import Model.SqlClass;
 
 
@@ -26,12 +15,7 @@ public class AdminAdduser extends javax.swing.JFrame {
         initComponents();
        
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
+
 SystemControls Systems;
 entryStation e=new entryStation();
 CustomerControls Cust;
@@ -58,7 +42,7 @@ AdminControls admin;
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add User");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -254,7 +238,7 @@ AdminControls admin;
                String Id_String=id+"";
                jTextField1.setText(Id_String);
                
-               int spot=Cust.getSpot("freespots");
+               int spot=Systems.getSpot("freespots");
                String spot_String=spot+"";
                jTextField2.setText(spot_String);
              jFormattedTextField1.setText(admin.addUser( id, spot, plateNum));
@@ -273,12 +257,12 @@ AdminControls admin;
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new Admin().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {

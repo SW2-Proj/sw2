@@ -1,53 +1,49 @@
 package GUI;
 
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import static Model.Connectsql.setConnection;
+import Model.SqlClass;
 
 /**
  *
- * @author Fady Malak
+ * 
  */
 public class viewShifts extends javax.swing.JFrame {
-
+SystemControls Systems;
+entryStation e=new entryStation();
+CustomerControls Cust;
+SqlClass get;
+AdminControls admin;
     public viewShifts() {
-        DefaultTableModel dtm = new DefaultTableModel();
         initComponents();
-        try {
-            initComponents();
-            this.jTable1.setModel(dtm);
-            dtm.addColumn("Id");
-            dtm.addColumn("Spot");
-            dtm.addColumn("Start time");
-            dtm.addColumn("End time");
-            dtm.addColumn("Total time");
-            dtm.addColumn("Plate number");
-            dtm.addColumn("Payment");
+        DefaultTableModel table = new DefaultTableModel();
+       try {
+              this.jTable1.setModel(table);
+            table.addColumn("Id");
+            table.addColumn("Spot");
+            table.addColumn("Start time");
+            table.addColumn("End time");
+            table.addColumn("Total time");
+            table.addColumn("Plate number");
+            table.addColumn("Payment");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = setConnection();
-            Statement st = con.createStatement();
-            String sql = "select * from totalcars";
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                dtm.addRow(new Object[]{rs.getInt("id"), rs.getInt("spot"), rs.getTime("starttime"), rs.getTime("endtime"), rs.getTime("totaltime"), rs.getString("platenum"), rs.getFloat("payment")});
+             ResultSet QueryResult =get.getQuery("select * from totalcars");
+            while (QueryResult.next()) {
+                table.addRow(new Object[]{QueryResult.getInt("id"), QueryResult.getInt("spot"), QueryResult.getTime("starttime"), QueryResult.getTime("endtime"), QueryResult.getTime("totaltime"), QueryResult.getString("platenum"), QueryResult.getFloat("payment")});
             }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(shiftsReport.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }    
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -58,7 +54,7 @@ public void close(){
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("View Shifts Report");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -98,7 +94,7 @@ public void close(){
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(127, 127, 127)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,13 +113,13 @@ public void close(){
                 .addGap(0, 40, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(564, 487));
+        setSize(new java.awt.Dimension(560, 487));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new Admin().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

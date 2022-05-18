@@ -1,34 +1,23 @@
-
 package GUI;
+
 import Controller.SystemControls;
 import Controller.CustomerControls;
 import Model.Connectsql;
 import java.sql.*;
-import com.sun.jdi.connect.spi.Connection;
-import java.awt.event.*;
 import java.awt.*;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import java.awt.*;
-import static Model.Connectsql.setConnection;
 
-/**
- *
- * 
- */
+
 public class exitSation extends javax.swing.JFrame {
-Connectsql c= new Connectsql();
-  CustomerControls Cust;
-  SystemControls Systems;
+
+    Connectsql c = new Connectsql();
+    CustomerControls Cust = new CustomerControls();
+    SystemControls Systems = new SystemControls();
+
     public exitSation() {
         initComponents();
-    }
-    public void close() {
-        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +36,7 @@ Connectsql c= new Connectsql();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Exit Station");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -183,7 +172,7 @@ Connectsql c= new Connectsql();
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
    
@@ -191,11 +180,12 @@ Connectsql c= new Connectsql();
         String Id =jTextField1.getText();
         int id= Integer.parseInt(Id);
         System.out.println(id);
-        
-         jTextField2.setText(Cust.calulateTotalTime(id).toString());
-         String pay=(Cust.calculatePayment(Cust.calulateTotalTime(id)))+" ";
-         jTextPane1.setText(pay);
-        Systems.setPayment("parkedcar", Cust.calculatePayment(Cust.calulateTotalTime(id)), id);
+        Time t=Systems.calulateTotalTime(id);
+       
+         jTextField2.setText(t.toString());
+         float pay=(Systems.calculatePayment(Systems.calulateTotalTime(id)));
+         jTextPane1.setText(pay+"$");
+        Systems.setPayment(pay,id);
         
     }//GEN-LAST:event_jButton1ActionPerformed
      public void jButtonAction(java.awt.event.ActionEvent evt) {
@@ -210,7 +200,7 @@ Connectsql c= new Connectsql();
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "Payment has been successful");
             new Home().setVisible(true);
-            close();
+        this.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(exitSation.class.getName()).log(Level.SEVERE, null, ex);
         }

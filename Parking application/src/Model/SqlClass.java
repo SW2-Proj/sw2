@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,45 +19,48 @@ import java.sql.Statement;
  */
 public class SqlClass {
     
-  public static ResultSet getQuery(String Query) throws SQLException{
-   Connection connect = setConnection();
-   Statement QueryStatement = connect.createStatement();
-   ResultSet QueryResult = QueryStatement.executeQuery(Query);
-   
-   connect.close();
-   QueryStatement.close();
-   return QueryResult;
-}
-  public static ResultSet getQuery(String Query,String var) throws SQLException{
-   Connection connect = setConnection();
-   Statement QueryStatement = connect.createStatement();
-   ResultSet QueryResult = QueryStatement.executeQuery(Query);
-   
-   connect.close();
-   QueryStatement.close();
-   return QueryResult;
-}
-  public static void UpdateQuery(String Query) throws SQLException{
-   Connection connect = setConnection();
-   Statement QueryStatement = connect.createStatement();
-   QueryStatement.executeUpdate(Query);
-   
-   connect.close();
-   QueryStatement.close();
-}
-  public static ResultSet getQuery(String Query,String var,int var2) throws SQLException{
-   Connection connect = setConnection();
-   Statement QueryStatement = connect.createStatement();
-   ResultSet QueryResult = QueryStatement.executeQuery(Query,var,var2);
-   
-//   connect.close();
-//   QueryStatement.close();
-   return QueryResult;
-}
+    /**
+     *
+     * @param Query
+     * @return
+     * @throws SQLException
+     */
+    public static ResultSet getQuery(String Query) throws SQLException {
+        ResultSet QueryResult=null;
+        Connection connect = setConnection();
+        Statement QueryStatement = connect.createStatement();
+        QueryResult = QueryStatement.executeQuery(Query);
+
+        return QueryResult;
+    }
+//
+//  public static void UpdateQuery(String Query) throws SQLException{
+//   Connection connect = setConnection();
+//   Statement QueryStatement = connect.createStatement();
+//   QueryStatement.executeUpdate(Query);
+//}
+//  public static ResultSet getQuery(String Query,String var,int var2) throws SQLException{
+//   Connection connect = setConnection();
+//   Statement QueryStatement = connect.createStatement();
+//   ResultSet QueryResult = QueryStatement.executeQuery(Query,var,var2);
+//   
+////   connect.close();
+////   QueryStatement.close();
+//   return QueryResult;
+//}
 
     public void updateQuery(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connect = setConnection();
+            Statement QueryStatement = connect.createStatement();
+            QueryStatement.executeUpdate(string);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
+
+
+  
 
     
 

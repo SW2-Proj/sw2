@@ -1,10 +1,17 @@
 
 package GUI;
-import java.awt.event.*;
-import java.awt.*;
+import Controller.AdminControls;
+import Controller.CustomerControls;
+import Controller.SystemControls;
+import Model.SqlClass;
+
 
 public class Home extends javax.swing.JFrame {
-
+SystemControls Systems=new SystemControls();
+entryStation e=new entryStation();
+CustomerControls Cust= new CustomerControls();
+SqlClass get= new SqlClass();
+AdminControls admin= new AdminControls();
     private Object color;
 
     
@@ -12,10 +19,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         show();
     }
-public void close(){
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,6 +60,7 @@ public void close(){
 
         popupMenu1.setLabel("popupMenu1");
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Parking Guidance System");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -117,12 +122,12 @@ public void close(){
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
                 new CustomerModule().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new AdminModule().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -152,7 +157,7 @@ public void close(){
         }
         //</editor-fold>
         //</editor-fold>
-
+     
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Home().setVisible(true);

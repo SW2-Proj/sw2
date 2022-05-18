@@ -1,13 +1,7 @@
 package Model;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 public class Connectsql {
 
@@ -20,13 +14,10 @@ public class Connectsql {
             String password = "";
             connectDB = DriverManager.getConnection(url, username, password);
             System.out.println("Connected!");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
         }
         return connectDB;
     }
-   public static void main(String[] args) throws SQLException
-   {
-       
-   }
+  
 }

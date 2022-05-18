@@ -1,40 +1,23 @@
-
 package GUI;
+
 import Controller.CustomerControls;
 import Model.Connectsql;
-import java.sql.Statement;
 import java.awt.Component;
 import java.util.*;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import static Model.Connectsql.setConnection;
 
 public class CustomerModule extends javax.swing.JFrame {
 
     private Component frame;
-   // private Component frame2;
     Connectsql connect = new Connectsql();
-    CustomerControls Cust;
+    CustomerControls Cust=new CustomerControls();
    
     
-    int plateInput;
-    Scanner input = new Scanner(System.in);
-
     public CustomerModule() {
         initComponents();
         entry.setEnabled(false);
         exit.setEnabled(false);
-    }
-    public void close() {
-
-        WindowEvent winClosingEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -58,7 +41,7 @@ public class CustomerModule extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         entry = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Customer Module");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
@@ -250,13 +233,15 @@ public class CustomerModule extends javax.swing.JFrame {
                 .addGap(44, 44, 44))
         );
 
-        setSize(new java.awt.Dimension(364, 487));
+        setSize(new java.awt.Dimension(367, 484));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String plateInput = PlateNo.getText(); 
+        String plateInput = PlateNo.getText();
+        System.out.println(plateInput);
         int Flag=Cust.checkPlate (plateInput);
+        System.out.println(Flag);
             DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss a");
             Date date = new Date();
             String time = dateFormat.format(date);
@@ -298,13 +283,13 @@ public class CustomerModule extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
 
         new exitSation().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_exitActionPerformed
 
     private void entryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryActionPerformed
@@ -312,6 +297,8 @@ public class CustomerModule extends javax.swing.JFrame {
         String plateNum = PlateNo.getText();
         System.out.println(plateNum);
         Cust.insertEntryData(plateNum);
+        new entryStation().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_entryActionPerformed
 
 

@@ -1,48 +1,34 @@
-
 package GUI;
+
 import Controller.CustomerControls;
-import Model.Connectsql;
-import java.awt.event.*;
+import Controller.SystemControls;
 import java.awt.*;
 import javax.swing.JOptionPane;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static Model.Connectsql.setConnection;
-/**
- *
- * 
- */
+
 public class entryStation extends javax.swing.JFrame {
 
     private Component frame;
-        Connectsql c= new Connectsql();
-        CustomerControls Cust; 
+        CustomerControls Cust=new CustomerControls();
+        SystemControls Systems= new SystemControls() ;
          int free=0;
         
     public  entryStation() {
        initComponents();
 
-            int y=Cust.freeSpots();
-             if (y==0){
+            int freeSpots=Systems.freeSpotsNumber();
+             if (freeSpots==0){
             jTextField3.setText("0 Spots");
             jButton1.setEnabled(false);}
              else{
             jButton1.setEnabled(true);
-            jTextField3.setText(y+" Spots");
-            int Current = Cust.getSpot("freespots");
+            jTextField3.setText(freeSpots+" Spots");
+            int Current = Systems.getSpot("freespots");
             String CurrentSpot = Current + "";
             jTextField1.setText(CurrentSpot);
         }
     }
     
  
- public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,7 +41,7 @@ public class entryStation extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Entry Station");
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -164,24 +150,23 @@ public class entryStation extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Cust.deleteSpot();
+        Systems.deleteSpot();
         int reserved = Cust.getID("parkedcar");
         reserved=reserved-1;
         JOptionPane.showMessageDialog(frame, "Book has been succesfull\nyour id: " + reserved);
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
-    //lma y5tar bookSpot
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         int reserved = (Cust.getID("parkedcar"))-1;
-        Cust.deleteRow(reserved);
+        Systems.deleteRow(reserved);
         new Home().setVisible(true);
-        close();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     

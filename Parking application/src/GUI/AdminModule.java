@@ -1,12 +1,8 @@
 
 package GUI;
-import java.awt.event.*;
+
 import java.awt.*;
-import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.util.*;
 import javax.swing.JOptionPane;
-import java.awt.Frame;
 
 public class AdminModule extends javax.swing.JFrame {
 
@@ -15,12 +11,6 @@ public class AdminModule extends javax.swing.JFrame {
     public AdminModule() {
         initComponents();
     }
-public void close(){
- 
- WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
- Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
- 
- }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -34,7 +24,7 @@ public void close(){
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
 
         jPanel1.setBackground(new java.awt.Color(83, 55, 160));
@@ -71,6 +61,11 @@ public void close(){
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -132,8 +127,7 @@ public void close(){
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        new Home().setVisible(true);
-        close();
+ 
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -142,13 +136,18 @@ public void close(){
         if (username.equals("admin")&&password.equals("admin"))
         {
             new Admin().setVisible(true);
-            close();
+            this.setVisible(false);
         }
         else 
         {
             JOptionPane.showMessageDialog(frame, "Login failed");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new Home().setVisible(true);
+            this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
 
